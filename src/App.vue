@@ -10,10 +10,16 @@
 <script>
 export default {
   name: 'App',
-}
+};
 </script>
 
+
 <style>
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -21,5 +27,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  height: inherit;
+  width: inherit;
 }
 </style>

@@ -1,0 +1,25 @@
+.fx-rows {
+  display: flex;
+  flex-direction: column;
+
+  > .fx-row {
+    position: relative;
+
+    &.fx-expand {
+      flex: 1 1 auto;
+    }
+  }
+}
+
+.fx-columns {
+  display: flex;
+  flex-direction: row;
+
+  > .fx-column {
+    position: relative;
+
+    &.fx-expand {
+      flex: 1 1 auto;
+    }
+  }
+}
