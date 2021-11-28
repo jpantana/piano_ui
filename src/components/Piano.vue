@@ -4,7 +4,9 @@
       v-for="(key) in keysComputed"
       :key="key.name"
       :class="key.classes"
-      @click="handleNotePlayed(key.value)">
+      @click.stop="handleNotePlayed(key.value)"
+    >
+      <span v-if="key.blackKey" @click.stop="handleNotePlayed(key.value)"></span>
     </div>
   </div>
 </template>
@@ -21,18 +23,18 @@ export default defineComponent({
 
     /** data/refs */
     const keys = ref([
-      {id: 1, value: 'c', classes: `key fx-column fx-expand` },
-      {id: 2, value: 'c#', classes: `key is-black fx-column` },
-      {id: 3, value: 'd', classes: `key fx-column fx-expand` },
-      {id: 4, value: 'd#', classes: `key is-black fx-column` },
-      {id: 5, value: 'e', classes: `key fx-column fx-expand` },
-      {id: 6, value: 'f', classes: `key  fx-column fx-expand` },
-      {id: 7, value: 'f#', classes: `key is-black fx-column` },
-      {id: 8, value: 'g', classes: `key fx-column fx-expand` },
-      {id: 9, value: 'g#', classes: `key is-black fx-column` },
-      {id: 10, value: 'a', classes: `key fx-column fx-expand` },
-      {id: 11, value: 'a#', classes: `key is-black fx-column` },
-      {id: 12, value: 'b', classes: `key fx-column fx-expand` },
+      {id: 1, value: 'c', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 2, value: 'db', classes: `key is-black fx-column`, blackKey: true },
+      {id: 3, value: 'd', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 4, value: 'eb', classes: `key is-black fx-column`, blackKey: true },
+      {id: 5, value: 'e', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 6, value: 'f', classes: `key  fx-column fx-expand`, blackKey: false },
+      {id: 7, value: 'gb', classes: `key is-black fx-column`, blackKey: true },
+      {id: 8, value: 'g', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 9, value: 'ab', classes: `key is-black fx-column`, blackKey: true },
+      {id: 10, value: 'a', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 11, value: 'bb', classes: `key is-black fx-column`, blackKey: true },
+      {id: 12, value: 'b', classes: `key fx-column fx-expand`, blackKey: false },
     ]);
 
     const isMounted = ref(false);
@@ -114,7 +116,7 @@ $ivory: #FFFFF0;
       max-width: 0px !important;
       border: none;
 
-      &::before {
+      span {
         content: "";
         position: relative;
         display: block;
@@ -126,8 +128,20 @@ $ivory: #FFFFF0;
         left: v-bind(positionKey) !important;
       }
 
+      // &::before {
+      //   content: "";
+      //   position: relative;
+      //   display: block;
+      //   background-color: $black;
+      //   border-radius: 0 0 8px 8px;
+      //   height: 320px;
+      //   min-width: v-bind(keyWidth);
+      //   z-index: 1;
+      //   left: v-bind(positionKey) !important;
+      // }
+
       &.in-scale {
-        &::before {
+        & > span {
           border-bottom: 8px solid red;
         }
       }
