@@ -4,7 +4,7 @@ module.exports = {
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'scss',
-      patterns: ['/Users/joshpantana/workspace/menu-ui/src/styles/global.scss']
+      patterns: ['/Users/joshpantana/workspace/piano-ui/src/styles/global.scss']
     }
   }
 };

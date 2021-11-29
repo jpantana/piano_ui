@@ -4,9 +4,9 @@
       v-for="(key) in keysComputed"
       :key="key.name"
       :class="key.classes"
-      @click.stop="handleNotePlayed(key.value)"
+      @click.stop="handleNotePlayed(key)"
     >
-      <span v-if="key.blackKey" @click.stop="handleNotePlayed(key.value)"></span>
+      <span v-if="key.blackKey" @click.stop="handleNotePlayed(key)"></span>
     </div>
   </div>
 </template>
@@ -16,25 +16,31 @@ import { defineComponent, ref, computed, watch, onMounted } from 'vue';
 
 export default defineComponent({
   props: {
-    scale: Array,
-    default: () => ([]),
+    scale: {
+      type: Array,
+      default: () => ([]),
+    },
+    mode: {
+      type: String,
+      default: 'major',
+    }
   },
   setup(props, context) {
 
     /** data/refs */
     const keys = ref([
-      {id: 1, value: 'c', classes: `key fx-column fx-expand`, blackKey: false },
-      {id: 2, value: 'db', classes: `key is-black fx-column`, blackKey: true },
-      {id: 3, value: 'd', classes: `key fx-column fx-expand`, blackKey: false },
-      {id: 4, value: 'eb', classes: `key is-black fx-column`, blackKey: true },
-      {id: 5, value: 'e', classes: `key fx-column fx-expand`, blackKey: false },
-      {id: 6, value: 'f', classes: `key  fx-column fx-expand`, blackKey: false },
-      {id: 7, value: 'gb', classes: `key is-black fx-column`, blackKey: true },
-      {id: 8, value: 'g', classes: `key fx-column fx-expand`, blackKey: false },
-      {id: 9, value: 'ab', classes: `key is-black fx-column`, blackKey: true },
-      {id: 10, value: 'a', classes: `key fx-column fx-expand`, blackKey: false },
-      {id: 11, value: 'bb', classes: `key is-black fx-column`, blackKey: true },
-      {id: 12, value: 'b', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 0, majorName: 'C', minorName: 'C', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 1, majorName: 'C#', minorName: 'Db', classes: `key is-black fx-column`, blackKey: true },
+      {id: 2, majorName: 'D', minorName: 'D', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 3, majorName: 'D#', minorName: 'Eb', classes: `key is-black fx-column`, blackKey: true },
+      {id: 4, majorName: 'E', minorName: 'E', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 5, majorName: 'F', minorName: 'F', classes: `key  fx-column fx-expand`, blackKey: false },
+      {id: 6, majorName: 'F#', minorName: 'Gb', classes: `key is-black fx-column`, blackKey: true },
+      {id: 7, majorName: 'G', minorName: 'G', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 8, majorName: 'G#', minorName: 'Ab', classes: `key is-black fx-column`, blackKey: true },
+      {id: 9, majorName: 'A', minorName: 'A', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 10, majorName: 'A#', minorName: 'Bb', classes: `key is-black fx-column`, blackKey: true },
+      {id: 11, majorName: 'B', minorName: 'B', classes: `key fx-column fx-expand`, blackKey: false },
     ]);
 
     const isMounted = ref(false);
@@ -44,7 +50,7 @@ export default defineComponent({
     /** computed props */
     const keysComputed = computed(() => {
       return keys.value.map(x => ({...x,
-                                    classes: `${x.classes} ${isInScale(x.value) ? 'in-scale' : '' }`
+                                    classes: `${x.classes} ${isInScale(x) ? 'in-scale' : '' }`
                                   }))
     });
 
@@ -64,8 +70,9 @@ export default defineComponent({
       context.emit('played', note );
     }
 
-    const isInScale = (note) => {
-      return props.scale.findIndex(x => x.name === note) >= 0;
+    const isInScale = (data) => {
+      const name = [ `${ props.mode }Name`];
+      return props.scale.findIndex(x => x[ name ] === data[ name ]) >= 0;
     }
 
 
@@ -89,6 +96,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 $black: #484848;
 $ivory: #FFFFF0;
+$radius: 10px;
+$red: #ff6961;
 
 .keyboard {
   width: 100%;
@@ -101,14 +110,13 @@ $ivory: #FFFFF0;
 
   .key {
     height: inherit;
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 $radius $radius;
     border: .5px solid $black;
     background-color: $ivory;
     position: relative;
 
     &.in-scale {
-      border-bottom: 8px solid red;
-      // box-shadow: inset 0 0 10px red;
+      background: linear-gradient($ivory, $ivory, $ivory, $ivory, $ivory, $ivory, $ivory, $ivory, $ivory, $red);
     }
 
     &.is-black {
@@ -121,28 +129,16 @@ $ivory: #FFFFF0;
         position: relative;
         display: block;
         background-color: $black;
-        border-radius: 0 0 8px 8px;
+        border-radius: 0 0 $radius $radius;
         height: 320px;
         min-width: v-bind(keyWidth);
         z-index: 1;
         left: v-bind(positionKey) !important;
       }
 
-      // &::before {
-      //   content: "";
-      //   position: relative;
-      //   display: block;
-      //   background-color: $black;
-      //   border-radius: 0 0 8px 8px;
-      //   height: 320px;
-      //   min-width: v-bind(keyWidth);
-      //   z-index: 1;
-      //   left: v-bind(positionKey) !important;
-      // }
-
       &.in-scale {
         & > span {
-          border-bottom: 8px solid red;
+          background: linear-gradient($black, $black, $black, $black, $black, $black, $black, $black, $black, $red);
         }
       }
     }
