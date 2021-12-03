@@ -9,3 +9,11 @@ export const getMajorScaleByRoot = ( note ) => new Promise((resolve, reject) => 
       })
       .catch(reject);
 });
+
+export const getNaturalMinorScaleByRoot = ( note ) => new Promise((resolve, reject) => {
+    axios.get(`${ baseUrl }/minor/${ note }`)
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(reject);
+});

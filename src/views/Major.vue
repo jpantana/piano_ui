@@ -15,7 +15,7 @@
 <script>
 import { defineComponent, ref } from 'vue';
 import Piano from '../components/Piano.vue';
-import { getMajorScaleByRoot } from '../utils/data/major.data.js';
+import { getMajorScaleByRoot } from '../utils/data/scales.data.js';
 
 export default defineComponent({
   components: {
@@ -29,7 +29,7 @@ export default defineComponent({
     const handleNotePlayed = async ( note ) => {
       const res = await getMajorScaleByRoot(note.id);
       scale.value = res;
-      rootNote.value = `${ note.majorName } Major`;
+      rootNote.value = `${ note.sharpName } Major`;
     }
 
     return {

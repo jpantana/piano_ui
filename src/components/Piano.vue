@@ -22,25 +22,25 @@ export default defineComponent({
     },
     mode: {
       type: String,
-      default: 'major',
+      default: 'sharp',
     }
   },
   setup(props, context) {
 
     /** data/refs */
     const keys = ref([
-      {id: 0, majorName: 'C', minorName: 'C', classes: `key fx-column fx-expand`, blackKey: false },
-      {id: 1, majorName: 'C#', minorName: 'Db', classes: `key is-black fx-column`, blackKey: true },
-      {id: 2, majorName: 'D', minorName: 'D', classes: `key fx-column fx-expand`, blackKey: false },
-      {id: 3, majorName: 'D#', minorName: 'Eb', classes: `key is-black fx-column`, blackKey: true },
-      {id: 4, majorName: 'E', minorName: 'E', classes: `key fx-column fx-expand`, blackKey: false },
-      {id: 5, majorName: 'F', minorName: 'F', classes: `key  fx-column fx-expand`, blackKey: false },
-      {id: 6, majorName: 'F#', minorName: 'Gb', classes: `key is-black fx-column`, blackKey: true },
-      {id: 7, majorName: 'G', minorName: 'G', classes: `key fx-column fx-expand`, blackKey: false },
-      {id: 8, majorName: 'G#', minorName: 'Ab', classes: `key is-black fx-column`, blackKey: true },
-      {id: 9, majorName: 'A', minorName: 'A', classes: `key fx-column fx-expand`, blackKey: false },
-      {id: 10, majorName: 'A#', minorName: 'Bb', classes: `key is-black fx-column`, blackKey: true },
-      {id: 11, majorName: 'B', minorName: 'B', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 0, sharpName: 'C', flatName: 'C', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 1, sharpName: 'C#', flatName: 'Db', classes: `key is-black fx-column`, blackKey: true },
+      {id: 2, sharpName: 'D', flatName: 'D', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 3, sharpName: 'D#', flatName: 'Eb', classes: `key is-black fx-column`, blackKey: true },
+      {id: 4, sharpName: 'E', flatName: 'E', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 5, sharpName: 'F', flatName: 'F', classes: `key  fx-column fx-expand`, blackKey: false },
+      {id: 6, sharpName: 'F#', flatName: 'Gb', classes: `key is-black fx-column`, blackKey: true },
+      {id: 7, sharpName: 'G', flatName: 'G', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 8, sharpName: 'G#', flatName: 'Ab', classes: `key is-black fx-column`, blackKey: true },
+      {id: 9, sharpName: 'A', flatName: 'A', classes: `key fx-column fx-expand`, blackKey: false },
+      {id: 10, sharpName: 'A#', flatName: 'Bb', classes: `key is-black fx-column`, blackKey: true },
+      {id: 11, sharpName: 'B', flatName: 'B', classes: `key fx-column fx-expand`, blackKey: false },
     ]);
 
     const isMounted = ref(false);
