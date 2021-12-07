@@ -20,6 +20,10 @@ export default defineComponent({
       type: Array,
       default: () => ([]),
     },
+    octave: {
+      type: Number,
+      default: 4,
+    },
     mode: {
       type: String,
       default: 'sharp',
@@ -47,12 +51,16 @@ export default defineComponent({
     const keyWidth = ref('0px');
     const positionKey = ref('-0px');
 
+    const oscillators = ref([]);
+
     /** computed props */
     const keysComputed = computed(() => {
       return keys.value.map(x => ({...x,
                                     classes: `${x.classes} ${isInScale(x) ? 'in-scale' : '' }`
                                   }))
     });
+
+    const oct = computed(() => props.octave);
 
     /** watchers */
     watch(isMounted, (to) => {
@@ -64,10 +72,45 @@ export default defineComponent({
         }
       }
     });
+    watch(oct, () => {
+      //
+    })
 
     /** methods */
+    const createSynth = (getFrequency, note) => {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      // create Oscillator node
+      const oscillator = audioCtx.createOscillator();
+      oscillator.connect(audioCtx.destination);
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime( getFrequency(note), audioCtx.currentTime);
+
+      if (oscillators.value.length) {
+        oscillators.value[0].stop();
+        oscillators.value.splice(0, 1);
+      }
+
+      oscillators.value.push(oscillator);
+      oscillator.start();
+      setTimeout(() => {
+        oscillator.stop();
+      }, 1800);
+    }
+
+    const getFrequency = (note) => {
+        const octJump = (oct.value - 4) * 12
+        const middleC = 440 * Math.pow( Math.pow( 2, 1 / 12 ), -9 );
+        return middleC * Math.pow( Math.pow( 2, 1 / 12 ), (note.id * 1) + octJump );
+      }
+
+
+    const playNoteFrequency = (note) => {
+      createSynth(getFrequency, note);
+    };
+
     const handleNotePlayed = (note) => {
       context.emit('played', note );
+      playNoteFrequency(note);
     }
 
     const isInScale = (data) => {
@@ -82,6 +125,7 @@ export default defineComponent({
     });
 
     return {
+      oscillators,
       keysComputed,
       keyWidth,
       positionKey,
@@ -106,7 +150,8 @@ $red: #ff6961;
   background: transparent;
   margin-top: 1rem;
   max-width: 800px;
-  margin: auto;
+  // margin: auto 2rem auto auto;
+  margin: 2rem 2rem 2rem 10rem;
 
   .key {
     height: inherit;
@@ -130,7 +175,7 @@ $red: #ff6961;
         display: block;
         background-color: $black;
         border-radius: 0 0 $radius $radius;
-        height: 320px;
+        height: 280px;
         min-width: v-bind(keyWidth);
         z-index: 1;
         left: v-bind(positionKey) !important;

@@ -4,10 +4,15 @@
 
   > .fx-row {
     position: relative;
+    flex: 0 0 auto;
 
     &.fx-expand {
       flex: 1 1 auto;
     }
+  }
+  &.fx-center {
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -17,9 +22,19 @@
 
   > .fx-column {
     position: relative;
+    flex: 0 0 auto;
 
     &.fx-expand {
       flex: 1 1 auto;
     }
   }
+
+  &.fx-center {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.fx-row.fx-columns, .fx-column.fx-rows {
+  // position: absolute;
 }
